@@ -1,0 +1,2 @@
+antsRegistration --dimensionality 3 --float 0 --output [ants/t1_2_t0_sub-034_,ants/t1_2_t0_sub-034_Warped.nii.gz] --interpolation Linear --use-histogram-matching 0 --initial-moving-transform [$t0,$t1,1] --transform Rigid[0.1] --metric MI[$t0,$t1,1,32,Regular,0.25] --convergence [1000x500x250x100,1e-6,10] --shrink-factors 8x4x2x1 --smoothing-sigmas 3x2x1x0vox --transform Affine[0.1] --metric MI[$t0,$t1,1,32,Regular,0.25] --convergence [1000x500x250x100,1e-6,10] --shrink-factors 8x4x2x1 --smoothing-sigmas 3x2x1x0vox
+

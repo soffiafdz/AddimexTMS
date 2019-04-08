@@ -1,0 +1,42 @@
+{
+    "descriptions": [
+        {
+            "dataType": "anat",
+            "modalityLabel": "T1w",
+            "criteria": {
+                "SeriesDescription": "sT1W_3D_TFE_32_channel"
+            }
+        },
+        {
+            "dataType": "dwi",
+            "modalityLabel": "dwi",
+            "criteria": {
+                "SeriesDescription": "DTI_136_2_SHELLS_AP"
+            }
+        },       
+        {
+            "dataType": "func",
+            "modalityLabel": "bold",
+            "customLabels": "task-rest",
+            "criteria": {
+                "SeriesDescription": "FE_EPI_32chSHC_AP"
+            }
+        },
+        {
+            "dataType": "fmap",
+            "modalityLabel": "epi",
+            "intendedFor": 1,
+            "criteria": {
+                "SeriesDescription": "FM_DTI_136_2_SHELLS_PA"
+            }
+        },
+        {
+            "dataType": "fmap",
+            "modalityLabel": "epi",
+            "intendedFor": 2,
+            "criteria": {
+                "SeriesDescription": "FM_EPI_32chSHC_PA"
+            }
+        }
+    ]
+}
