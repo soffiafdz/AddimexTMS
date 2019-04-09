@@ -4,6 +4,7 @@ inDir=$1
 outDir=$2
 seedsDir=$3
 SubsList=$4
+stimZids=()
 
 usg="Usage: $0 <inDir: directory with the preprocessed BOLD images> \n \
 <outDir: directory to output files> \n \
@@ -16,7 +17,6 @@ if [[ $# -lt 4 ]]; then
 else
     while read subID; do
         echo "Processing SUBJECT $subID"
-        stimZids=()
         for seed in $(ls ${seedsDir}/*mniConeNorm.nii.gz); do
             stimZ=$(basename $seed)
             stimZid=${stimZ%mniCone*}
