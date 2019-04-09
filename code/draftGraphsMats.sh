@@ -1,4 +1,4 @@
-for i in $(ls graphs/adjm_0918/power/pos/*/*/*/*_[r,z].csv); do 
+for i in $(ls graphs/adjm_0918/power/pos/*/*/*/*_[r,z].csv); do
     echo "${i#*sub-}" $(awk '{n+=1} END {print n}' ${i});
 done
 
@@ -9,14 +9,14 @@ awk '{n+=1} END {print n}'
 
 for (( i=1; i<${arraylength}+1; i++ ))
 
-for i in $(ls graphs/adjm_0918/power/pos/*/*/*/*_[r,z].csv); do 
-    echo "${i#*sub-}" $(awk '{n+=1} END {print n}' ${i});
+for i in $(ls graphs/adjm_0918/power/pos/*/*/*/*_[r,z].csv); do
+    echo ${i#*sub-} $(awk '{n+=1} END {print n}' ${i});
 done
 
 
 awk '{n+=1} END {print n}'
 
-##Functions 
+##Functions
 brain_mask() { #dir #sub_ses
     if [ -e ${1}/ppBold/brainmask_MNI3mm_${2}.nii.gz ]; then
         echo "Brain mask already exists for $2"
@@ -38,7 +38,7 @@ tx_sham() { #subn
             gr=sham
         fi
     done
-    
+
     #Seeing if the sub is tx
     for j in ${tx[@]}; do
         if [ $j -eq $1 ] ; then
@@ -56,7 +56,7 @@ adj_mat() { #sub_ses gr net $(pwd)/graphs/matrices/power_${now}
     -in_rois ../../../atlases/power_240818/rois/nets/${3}/${3}_network.nii.gz \
     -fish_z
 
-            
+
     #Need to change name of network in -in rois
     if [ ${1#*s-} == "t0" ]; then
         echo "moving data to ${4}/${3}/baseline/${2}"
@@ -104,7 +104,7 @@ extract_r_z_mats() { # in:$(pwd)/graphs/matrices/power_${now}/${net}/${ses}/${gr
     cd $basedir
 }
 
-pos_mats() { #in out 
+pos_mats() { #in out
     mkdir -p ${2%*sub-*}
     awk -vOFS='\t' '{for(i=1;i<=NF;i++)if($i<0)$i=0}1' $1 > ${2}/
 }
@@ -114,7 +114,7 @@ unname_nodes() { #$(ls graphs/adjm_0918/power/*/${net}/*/*/*{r,z}.csv)
 }
 
 rm_dropouts() { #dir 005 009 028
-    for i in ${@:2}; do 
+    for i in ${@:2}; do
         rm ${1}/${i}
     done
 }
