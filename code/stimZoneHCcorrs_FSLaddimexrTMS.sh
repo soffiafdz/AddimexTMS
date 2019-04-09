@@ -9,25 +9,27 @@ stimZids=()
 usg="Usage: $0 <inDir: directory with the preprocessed BOLD images> \n \
 <outDir: directory to output files> \n \
 <seedsDir: directory with seeds \n \
-<IDSfile: CSV file with sub (and session)>"
+<IDSfile: CSV file with subs and sessions (sub-001, ses-t0)>"
 
 if [[ $# -lt 4 ]]; then
 	echo $usg;
 	exit 0;
 else
-    while read subID; do
-        echo "Processing SUBJECT $subID"
+    while IFS="," read subID sess ; do
+        echo "Processing SUBJECT $subID $sess"
         for seed in $(ls ${seedsDir}/*mniConeNorm.nii.gz); do
             stimZ=$(basename $seed)
             stimZid=${stimZ%mniCone*}
             stimZids+=( $stimZid )
 
             for gs in gs0 gs1; do
+                if [ $gs == gs0 ]; then gsString=ppBoldv2_woGSR_MNI3mm_; fi;
+                if [ $gs == gs1 ]; then gsString=ppBoldv2_MNI3mm_; fi;
                 echo "Extracting Time Series for $stimZ (${gs})"
                 mkdir -p ${outDir}/timeSeries/${gs}
                 #FSL
-                fslmeants -i ${inDir}/${subID}_pp_scrub_${gs}_mni.nii.gz \
-                -o ${outDir}/timeSeries/${gs}/${subID}_stimZ${stimZid}_${gs}.1D \
+                fslmeants -i ${inDir}/${gsString}${subID}_${sess}.nii.gz \
+                -o ${outDir}/timeSeries/${gs}/${subID}_${sess}_stimZ${stimZid}_${gs}.1D \
                 -m ${seed}
 
                 echo "Finished extracting Time Series"
@@ -37,14 +39,14 @@ else
                 mkdir -p ${outDir}/correlationMaps/Z
                 #AFNI
                 3dfim+ -polort 3 \
-                -input ${inDir}/${subID}_pp_scrub_${gs}_mni.nii.gz \
-                -ideal_file ${outDir}/timeSeries/${gs}/${subID}_stimZ${stimZid}_${gs}.1D \
+                -input ${inDir}/${gsString}${subID}_${sess}.nii.gz \
+                -ideal_file ${outDir}/timeSeries/${gs}/${subID}_${sess}_stimZ${stimZid}_${gs}.1D \
                 -out Correlation \
-                -bucket ${outDir}/correlationMaps/r/${subID}_stimZ${stimZid}_${gs}_corr.nii.gz
+                -bucket ${outDir}/correlationMaps/r/${subID}_${sess}_stimZ${stimZid}_${gs}_corr.nii.gz
                 #AFNI
-                3dcalc -a ${outDir}/correlationMaps/r/${subID}_stimZ${stimZid}_${gs}_corr.nii.gz \
+                3dcalc -a ${outDir}/correlationMaps/r/${subID}_${sess}_stimZ${stimZid}_${gs}_corr.nii.gz \
                 -expr 'log((1+a)/(1-a))/2' \
-                -prefix ${outDir}/correlationMaps/Z/${subID}_stimZ${stimZid}_${gs}_corrZ.nii.gz
+                -prefix ${outDir}/correlationMaps/Z/${subID}_${sess}_stimZ${stimZid}_${gs}_corrZ.nii.gz
             done
             echo "Done with stimZone $stimZ"
         done
