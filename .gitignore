@@ -1,5 +1,3 @@
 derivatives/
-sourcedata/
-sub*/
-.bidsignore
+**/*.nii.gz
 CHANGES
