@@ -1,0 +1,8 @@
+code/
+derivatives/
+log/
+sourcedata/
+tmp_dcm2bids/
+CHANGES
+participantsTMS.tsv
+to_do
