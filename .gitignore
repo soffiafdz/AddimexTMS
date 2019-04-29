@@ -1,4 +1,6 @@
 derivatives/
 **/*.nii.gz
 CHANGES
-sourcedata/{clinical_data,dicom,fsl_std}
+sourcedata/clinical_data/
+sourcedata/dicom/
+sourcedata/fsl_std
