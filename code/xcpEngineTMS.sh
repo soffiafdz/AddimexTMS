@@ -5,7 +5,7 @@
 #$ -N xcpEngineTMS
 ## execute the job using the mpi_smp parallel enviroment and 122 cores per job
 ## create an array of 2 jobs the number of subjects and sessions
-#$ -t 1
+#$ -t 1-3
 #$ -V
 #$ -l mem_free=18G
 #$ -pe openmp 12
