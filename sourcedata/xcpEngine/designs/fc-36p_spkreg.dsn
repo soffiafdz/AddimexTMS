@@ -33,7 +33,7 @@
 ###################################################################
 
 analysis=fc_$(whoami)
-design=${SING_DIR}/sourcedata/xcpEngine/designs/fc-36p_spkreg.dsn
+design=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/sourcedata/xcpEngine/designs/fc-36p_spkreg.dsn
 sequence=fc-rest
 standard=MNI%2x2x2
 
@@ -48,7 +48,7 @@ pipeline=prestats,confound2,regress,fcon,reho,alff,roiquant,norm,qcfc
 ###################################################################
 
 prestats_rerun[1]=1
-prestats_cleanup[1]=1
+prestats_cleanup[1]=0
 prestats_process[1]=FMP
 
 ###################################################################
@@ -69,9 +69,9 @@ confound2_sq[2]=2
 confound2_custom[2]=
 confound2_censor[2]=1
 confound2_censor_contig[2]=0
-confound2_framewise[2]=rmss:0.125,dv:2
+confound2_framewise[2]=rmss:0.08,dv:2
 confound2_rerun[2]=1
-confound2_cleanup[2]=1
+confound2_cleanup[2]=0
 
 ###################################################################
 # 3  REGRESS
@@ -91,7 +91,7 @@ regress_sptf[3]=uniform
 regress_usan[3]=default
 regress_usan_space[3]=
 regress_rerun[3]=0
-regress_cleanup[3]=1
+regress_cleanup[3]=0
 regress_process[3]=DMT-TMP-REG
 
 ###################################################################
@@ -104,7 +104,7 @@ fcon_thr[4]=0
 fcon_window[4]=10
 fcon_pad[4]=FALSE
 fcon_rerun[4]=0
-fcon_cleanup[4]=1
+fcon_cleanup[4]=0
 
 ###################################################################
 # 5 REHO
