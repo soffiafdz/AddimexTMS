@@ -5,7 +5,7 @@
 #$ -N xcpEngineTMS
 ## execute the job using the mpi_smp parallel enviroment and 122 cores per job
 ## create an array of 2 jobs the number of subjects and sessions
-#$ -t 1-3
+#$ -t 15-16
 #$ -V
 #$ -l mem_free=18G
 #$ -pe openmp 12
@@ -20,12 +20,12 @@ module load singularity/2.2
 
 ## Variables
 HOME_DIR=/mnt/MD1200B/egarza/sfernandezl
-OUT_DIR=${HOME_DIR}/AddimexTMS/derivatives/xcpOutput
+OUT_DIR=${HOME_DIR}/AddimexTMS/derivatives/xcpOutput2
 TMP_DIR=${HOME_DIR}/tmp
 FMRIPREP_DIR=${HOME_DIR}/AddimexTMS/derivatives/fmriprep/output/fmriprep
 SIMG=${HOME_DIR}/singImages/pennbbl_xcpengine-2019-04-19.img
 FULL_COHORT=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/cohorts/tmsFuncCohort.csv
-PIPELINE=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/designs/fc-36p_scrub.dsn
+PIPELINE=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/designs/fc-36p_spkreg.dsn
 
 ## TMP cohort file with 1 line
 HEADER=$(head -n 1 $FULL_COHORT)
