@@ -1,5 +1,5 @@
 id0,id1,img,antsct
-sub-001,ses-t0,fmriprep/output/fmriprep/sub-001/ses-t0/func/sub-001_ses-t0_task-rest_space-MNI152NLin2009cAsym_desc-preproc_bold.nii.gz,xcpOutput2/sub-001/ses-t0/struc
+sub-001,ses-t0,fmriprep2/output/fmriprep/sub-001/ses-t0/func/sub-001_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOutput/sub-001/ses-t0/struc
 sub-001,ses-t1,xcpOutput2/sub-001/ses-t1/struc,fmriprep2/output/fmriprep/sub-001/ses-t1/func/sub-001_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz
 sub-002,ses-t0,xcpOutput/sub-002/struc,fmriprep2/output/fmriprep/sub-002/ses-t0/func/sub-002_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz
 sub-002,ses-t14,xcpOutput/sub-002/struc,fmriprep2/output/fmriprep/sub-002/ses-t14/func/sub-002_ses-t14_task-rest_space-T1w_desc-preproc_bold.nii.gz
