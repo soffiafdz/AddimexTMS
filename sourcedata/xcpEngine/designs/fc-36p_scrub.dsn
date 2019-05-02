@@ -34,7 +34,7 @@
 
 analysis=fc_$(whoami)
 design=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/sourcedata/xcpEngine/designs/fc-36p_scrub.dsn
-sequence=fc-rest
+sequence=anatomical
 standard=MNI%2x2x2
 
 
@@ -99,13 +99,13 @@ regress_process[3]=DMT-TMP-REG
 # 4 FCON
 ###################################################################
 
-fcon_atlas[4]=power264
+fcon_atlas[4]=all
 fcon_metric[4]=corrcoef
 fcon_thr[4]=0
 fcon_window[4]=10
 fcon_pad[4]=FALSE
 fcon_rerun[4]=0
-fcon_cleanup[4]=1
+fcon_cleanup[4]=0
 
 ###################################################################
 # 5 REHO
@@ -144,7 +144,7 @@ roiquant_cleanup[7]=1
 ###################################################################
 norm_primary[8]=1
 norm_rerun[8]=0
-norm_cleanup[8]=1
+norm_cleanup[8]=0
 
 ##################################################################
 # 9 QCFC
