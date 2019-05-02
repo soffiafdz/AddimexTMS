@@ -1,6 +1,6 @@
 id0,id1,img
-sub-001,ses-t0,sub-001/anat/sub-001_space-MNI152NLin2009cAsym_desc-preproc_T1w.nii.gz
-sub-001,ses-t1,sub-001/anat/sub-001_space-MNI152NLin2009cAsym_desc-preproc_T1w.nii.gz
+sub-001,ses-t0,sub-001/anat/sub-001_desc-preproc_T1w.nii.gz
+sub-001,ses-t1,sub-001/anat/sub-001_desc-preproc_T1w.nii.gz
 sub-002,ses-t0,sub-002/anat/sub-002_desc-preproc_T1w.nii.gz
 sub-002,ses-t0,sub-002/anat/sub-002_desc-preproc_T1w.nii.gz
 sub-002,ses-t0,sub-002/anat/sub-002_desc-preproc_T1w.nii.gz
