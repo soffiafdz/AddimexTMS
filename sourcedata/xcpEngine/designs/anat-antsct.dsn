@@ -34,9 +34,9 @@
 ###################################################################
 
 analysis=struc-ACCELERATOR
-design=${XCPEDIR}/designs/anat-antsct.dsn
+design=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/sourcedata/xcpEngine/designs/anat-antsct.dsn
 sequence=anatomical
-standard=MNI%1x1x1
+standard=MNI%2x2x2
 
 ###################################################################
 # PIPELINE

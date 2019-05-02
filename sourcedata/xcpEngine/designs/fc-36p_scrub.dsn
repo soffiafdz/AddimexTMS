@@ -33,7 +33,7 @@
 ###################################################################
 
 analysis=fc_$(whoami)
-design=/AddimexTMS/sourcedata/xcpEngine/designs/fc-36p_scrub.dsn
+design=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/sourcedata/xcpEngine/designs/fc-36p_scrub.dsn
 sequence=fc-rest
 standard=MNI%2x2x2
 
