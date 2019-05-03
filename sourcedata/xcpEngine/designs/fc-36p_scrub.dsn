@@ -35,7 +35,7 @@
 analysis=fc_$(whoami)
 design=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/sourcedata/xcpEngine/designs/fc-36p_scrub.dsn
 sequence=anatomical
-standard=MNI%2x2x2
+standard=MNI%1x1x1
 
 
 ###################################################################
@@ -143,7 +143,7 @@ roiquant_cleanup[7]=1
 # 8 NORM
 ###################################################################
 norm_primary[8]=1
-norm_rerun[8]=0
+norm_rerun[8]=1
 norm_cleanup[8]=0
 
 ##################################################################
