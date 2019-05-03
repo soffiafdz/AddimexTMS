@@ -7,7 +7,7 @@
 #$ -t 1
 #$ -V
 #$ -l mem_free=20G
-#$ -pe openmp 18
+#$ -pe openmp 16
 ## change the following working directory to a persistent directory that is
 ## available on all nodes, this is were messages printed by the app (stdout
 ## and stderr) will be stored
