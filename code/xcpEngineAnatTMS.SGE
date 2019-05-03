@@ -44,4 +44,4 @@ singularity run -B /mnt:/mnt \
     -o $OUT_DIR \
     -r $FMRIPREP_DIR \
     -i $TMP_DIR \
-    -t 3
+    -t 2
