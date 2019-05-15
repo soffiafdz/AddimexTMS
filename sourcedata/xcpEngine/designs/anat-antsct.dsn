@@ -34,7 +34,7 @@
 ###################################################################
 
 analysis=struc-ACCELERATOR
-design=${XCPEDIR}/designs/anat-antsct.dsn
+design=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/sourcedata/xcpEngine/designs/anat-antsct.dsn
 sequence=anatomical
 standard=MNI%1x1x1
 
@@ -68,7 +68,7 @@ struc_process[1]=ACT
 
 roiquant_atlas[2]=all
 roiquant_vol[2]=1
-roiquant_rerun[2]=0
+roiquant_rerun[2]=1
 roiquant_cleanup[2]=1
 
 ###################################################################
@@ -85,3 +85,4 @@ qcanat_cort[3]=Y
 qcanat_cort_val[3]=4
 qcanat_rerun[3]=0
 qcanat_cleanup[3]=1
+>>>>>>> a20350c92d567da0f77e2fb0a8451797ec770832

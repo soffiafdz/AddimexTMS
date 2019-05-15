@@ -4,3 +4,4 @@ CHANGES
 sourcedata/clinical_data/
 sourcedata/dicom/
 sourcedata/fsl_std
+**/*tmp*

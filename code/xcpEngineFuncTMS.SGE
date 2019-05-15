@@ -7,7 +7,7 @@
 ## create an array of 87 jobs the number of subjects and sessions
 #$ -t 1-87
 #$ -V
-#$ -l mem_free=18G
+#$ -l mem_free=16G
 #$ -pe openmp 12
 ## change the following working directory to a persistent directory that is
 ## available on all nodes, this is were messages printed by the app (stdout
@@ -20,7 +20,7 @@ module load singularity/2.2
 
 ## Variables
 HOME_DIR=/mnt/MD1200B/egarza/sfernandezl
-OUT_DIR=${HOME_DIR}/AddimexTMS/derivatives/xcpOutput
+OUT_DIR=${HOME_DIR}/AddimexTMS/derivatives/xcpOut
 TMP_DIR=${HOME_DIR}/tmp
 DER_DIR=${HOME_DIR}/AddimexTMS/derivatives
 SIMG=${HOME_DIR}/singImages/pennbbl_xcpengine-2019-04-19.img
@@ -45,4 +45,4 @@ singularity run -B /mnt:/mnt \
     -o $OUT_DIR \
     -r $DER_DIR \
     -i $TMP_DIR \
-    -t 1
+    -t 2
