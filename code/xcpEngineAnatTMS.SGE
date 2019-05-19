@@ -1,4 +1,3 @@
-## SGE batch file - xcpEngineAnatTMS.SGE
 #$ -S /bin/bash
 ## xcpEanatTMS is the jobname and can be changed
 #$ -N xcpEanatTMS
