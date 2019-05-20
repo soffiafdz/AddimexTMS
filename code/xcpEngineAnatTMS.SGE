@@ -3,7 +3,7 @@
 #$ -N xcpEanatTMS
 ## execute the job using the mpi_smp parallel enviroment and 12 cores per job
 ## create an array of 31 jobs the number of subjects and sessions
-#$ -t 1
+#$ -t 1-87
 #$ -V
 #$ -l mem_free=18G
 #$ -pe openmp 12

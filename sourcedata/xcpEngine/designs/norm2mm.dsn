@@ -88,7 +88,7 @@ regress_tmpf_ripple2[3]=20
 regress_dmdt[3]=2
 regress_1ddt[3]=1
 regress_smo[3]=6
-regress_sptf[3]=susan
+regress_sptf[3]=uniform
 regress_usan[3]=default
 regress_usan_space[3]=
 regress_rerun[3]=0
@@ -113,7 +113,7 @@ fcon_cleanup[4]=1
 
 reho_nhood[5]=vertices
 reho_roikw[5]=0 # does nothing at the moment
-reho_sptf[5]=susan
+reho_sptf[5]=uniform
 reho_smo[5]=6
 reho_rerun[5]=0
 reho_cleanup[5]=1
@@ -124,7 +124,7 @@ reho_cleanup[5]=1
 
 alff_hipass[6]=0.01
 alff_lopass[6]=0.08
-alff_sptf[6]=susan
+alff_sptf[6]=uniform
 alff_smo[6]=6
 alff_rerun[6]=0
 alff_cleanup[6]=1
