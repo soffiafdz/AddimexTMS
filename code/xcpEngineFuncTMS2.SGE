@@ -23,7 +23,7 @@ HOME_DIR=/mnt/MD1200B/egarza/sfernandezl
 OUT_DIR=${HOME_DIR}/AddimexTMS/derivatives/xcpOut
 TMP_DIR=${HOME_DIR}/tmp
 DER_DIR=${HOME_DIR}/AddimexTMS/derivatives
-SIMG=${HOME_DIR}/singImages/pennbbl_xcpengine-2019-04-19.img
+SIMG=${HOME_DIR}/singImages/pennbbl_xcpengine_latest-2019-05-09.img
 FULL_COHORT=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/cohorts/tmsFuncCohort.csv
 PIPELINE=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/designs/norm2mm.dsn
 
