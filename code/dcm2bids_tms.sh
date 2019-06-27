@@ -3,7 +3,7 @@
 if [ $# -eq 0 ] || [ $# -gt 2 ] ;then
 	echo "usage: "$0" dcmdir [bidsdir]";
 	exit 0;
-elif [ $# -eq  1 ]; then 
+elif [ $# -eq  1 ]; then
 	bidsdir=$(pwd)
 else
 	bidsdir=$2
@@ -12,9 +12,9 @@ fi
 dcmdir=$1
 now=$(date +"%d%m%y")
 
-#Functions for reiteration 
+#Functions for reiteration
 conv2bids() {
-	echo "Converting ${ses}"; 
+	echo "Converting ${ses}";
 	echo "dcm2bids -d ${dcmdir}/${sub}/${ses} -p ${sub#*-} -s ${ses#*-} -c code/config.json";
 	dcm2bids -d ${dcmdir}/${sub}/${ses} -p ${sub#*-} -s ${ses#*-} -c code/config.json;
 }
@@ -42,7 +42,7 @@ ees_trt() {
 			TRT=0.04884
 		fi
 		echo "$sub ${ses}: $ES $TRT"
-		sed -i '${l}s/$/,\n\t\"EffectiveEchoSpacing\": ${ES},\n\t\"TotalReadoutTime\": ${TRT}/' $i
+		sed -i "${l}s/$/,\n\t\"EffectiveEchoSpacing\": $ES,\n\t\"TotalReadoutTime\": $TRT/" $i
 	done
 
 
@@ -50,7 +50,7 @@ ees_trt() {
 		subn=${sub#*-}
 		l=$(cat $i | grep -v "^#" | wc -l)
 		l=$((l-1))
-		case $subn in 
+		case $subn in
 			00[1-4])
 				case $ses in
 					"ses-t0")
@@ -69,7 +69,7 @@ ees_trt() {
 			;;
 		esac
 		echo "$sub ${ses}: $ES $TRT"
-		sed -i '${l}s/$/,\n\t\"PhaseEncodingDirection\": \"j-\",\n\t\"EffectiveEchoSpacing\": ${ES},\n\t\"TotalReadoutTime\": ${TRT}/' $i
+		sed -i "${l}s/$/,\n\t\"PhaseEncodingDirection\": \"j-\",\n\t\"EffectiveEchoSpacing\": ${ES},\n\t\"TotalReadoutTime\": ${TRT}/" $i
 	done
 
 
@@ -84,7 +84,7 @@ ees_trt() {
 				ES=0.000619
 				TRT=0.04832
 			else
-				case $subn in 
+				case $subn in
 					00[1-4])
 						case $ses in
 							"ses-t0")
@@ -104,12 +104,12 @@ ees_trt() {
 				esac
 			fi
 			echo "$subn ${ses}: $ES $TRT"
-			sed -i '${l}s|$|,\n\t\"PhaseEncodingDirection\": \"j\",\n\t\"EffectiveEchoSpacing\": ${ES},\n\t\"TotalReadoutTime\": ${TRT},\n\t\"IntendedFor\": \"${ses}/dwi/${sub}_${ses}_dwi.nii.gz\"|' $i
-		else 
+			sed -i "${l}s|$|,\n\t\"PhaseEncodingDirection\": \"j\",\n\t\"EffectiveEchoSpacing\": ${ES},\n\t\"TotalReadoutTime\": ${TRT}\"|" $i
+		else
 			echo "$(basename $i) is not a fieldmap for DTI, so it's for EPI";
 			case $ses in
 				"ses-t0")
-					case $subn in 
+					case $subn in
 						001)
 							ES=0.000635
 							TRT=0.04444
@@ -129,7 +129,7 @@ ees_trt() {
 				;;
 			esac
 			echo "$subn ${ses}: $ES $TRT"
-			sed -i '${l}s|$|,\n\t\"PhaseEncodingDirection\": \"j\",\n\t\"EffectiveEchoSpacing\": ${ES},\n\t\"TotalReadoutTime\": ${TRT},\n\t\"IntendedFor\": \"${ses}/func/${sub}_${ses}_task-rest_bold.nii.gz\"|' $i
+			sed -i "${l}s|$|,\n\t\"PhaseEncodingDirection\": \"j\",\n\t\"EffectiveEchoSpacing\": ${ES},\n\t\"TotalReadoutTime\": ${TRT}\"|" $i
 		fi
 	done
 }
@@ -149,7 +149,7 @@ for i in $(ls -d ${dcmdir}/sub-0*); do
 		conv2bids;
 		slicetiming;
 		ees_trt;
-		deface;
+		# deface;
 	else
 		echo "ses-t0 not found or already converted";
 	fi
@@ -159,7 +159,7 @@ for i in $(ls -d ${dcmdir}/sub-0*); do
 		conv2bids;
 		slicetiming;
 		ees_trt;
-		deface;
+		# deface;
 	else
 		echo "ses-t1 not found or already converted";
 	fi
@@ -169,17 +169,17 @@ for i in $(ls -d ${dcmdir}/sub-0*); do
 		conv2bids;
 		slicetiming;
 		ees_trt;
-		deface;
+		# deface;
 	else
 		echo "ses-t1-4 not found or already converted";
-	fi 
+	fi
 
 	if [ ! -d ${bidsdir}/${sub}/ses-t2 ] && [ -d ${dcmdir}/${sub}/ses-t2 ] ; then
 		ses="ses-t2";
 		conv2bids;
 		slicetiming;
 		ees_trt;
-		deface;
+		# deface;
 	else
 		echo "ses-t2 not found or already converted";
 	fi
@@ -189,7 +189,7 @@ for i in $(ls -d ${dcmdir}/sub-0*); do
 		conv2bids;
 		slicetiming;
 		ees_trt;
-		deface;
+		# deface;
 	else
 		echo "ses-t3 not found or already converted";
 	fi
@@ -199,7 +199,7 @@ for i in $(ls -d ${dcmdir}/sub-0*); do
 		conv2bids;
 		slicetiming;
 		ees_trt;
-		deface;
+		# deface;
 	else
 		echo "ses-t4 not found or already converted";
 	fi
@@ -209,7 +209,7 @@ for i in $(ls -d ${dcmdir}/sub-0*); do
 		conv2bids;
 		slicetiming;
 		ees_trt;
-		deface;
+		# deface;
 	else
 		echo "ses-t5 not found or already converted";
 	fi
