@@ -1,0 +1,67 @@
+#! /bin/bash
+## SGE batch file - FCDM_rand2.SGE
+#$ -S /bin/bash
+## rndFCDM is the jobname and can be changed
+#$ -N rndFCDM2
+## execute the job using the mpi_smp parallel enviroment and 21 cores per job
+## create an array of 2 jobs the number of subjects and sessions
+#$ -t 1-8
+#$ -V
+#$ -l mem_free=16G
+#$ -pe openmp 21
+## change the following working directory to a persistent directory that is
+## available on all nodes, this is were messages printed by the app (stdout
+## and stderr) will be stored
+#$ -j y 
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/FCDM
+# If modules are needed, source modules environment (Do not delete the next line):
+. /etc/profile.d/modules.sh
+#
+# Add any modules you might require:
+module load fsl/5.0.11
+FSLDIR=/cm/shared/apps/fsl/5.0.11
+. ${FSLDIR}/etc/fslconf/fsl.sh
+HOME=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/FCDM
+input=${HOME}/delta/delta_XXX-range_ZZZ_log_sm8.nii.gz
+
+case $SGE_TASK_ID in
+    1)
+        input=${input/XXX/long}
+        input=${input/ZZZ/sham}
+        ;;
+    2)
+        input=${input/XXX/long}
+        input=${input/ZZZ/tx}
+        ;;
+    3)
+        input=${input/XXX/short}
+        input=${input/ZZZ/sham}
+        ;;
+    4)
+        input=${input/XXX/short}
+        input=${input/ZZZ/tx}
+        ;;
+    5)
+        input=${input/XXX/neg_long}
+        input=${input/ZZZ/sham}
+        ;;
+    6)
+        input=${input/XXX/neg_long}
+        input=${input/ZZZ/tx}
+        ;;
+    7)
+        input=${input/XXX/neg_short}
+        input=${input/ZZZ/sham}
+        ;;
+    8)
+        input=${input/XXX/neg_short}
+        input=${input/ZZZ/tx}
+        ;;
+esac
+
+        out=${HOME}/fslRand2/$(basename $input .nii.gz)
+randomise \
+    -i $input \
+    -o $out \
+    -1 \
+    -T

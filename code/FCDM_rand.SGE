@@ -1,0 +1,43 @@
+#! /bin/bash
+## SGE batch file - FCDM_rand.SGE
+#$ -S /bin/bash
+## rndFCDM is the jobname and can be changed
+#$ -N rndFCDM
+## execute the job using the mpi_smp parallel enviroment and 21 cores per job
+## create an array of 2 jobs the number of subjects and sessions
+#$ -t 1-2
+#$ -V
+#$ -l mem_free=16G
+#$ -pe openmp 21
+## change the following working directory to a persistent directory that is
+## available on all nodes, this is were messages printed by the app (stdout
+## and stderr) will be stored
+#$ -j y 
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/FCDM
+# If modules are needed, source modules environment (Do not delete the next line):
+. /etc/profile.d/modules.sh
+#
+# Add any modules you might require:
+module load fsl/5.0.11
+FSLDIR=/cm/shared/apps/fsl/5.0.11
+. ${FSLDIR}/etc/fslconf/fsl.sh
+HOME=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/FCDM
+
+case $SGE_TASK_ID in
+    1)
+        input=${HOME}/delta/delta_s-range_log_sm8.nii.gz
+        out=${HOME}/fslRand/$(basename $input .nii.gz)
+        ;;
+    2)
+        input=${HOME}/delta/delta_l-range_log_sm8.nii.gz
+        out=${HOME}/fslRand/$(basename $input .nii.gz)
+        ;;
+esac
+
+randomise \
+    -i $input \
+    -o $out \
+    -d design.mat \
+    -t design.con \
+    -m  MNI152*brain_mask.nii.gz \
+    -T
