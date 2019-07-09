@@ -1,6 +1,7 @@
 {
     "Modality": "MR",
     "MagneticFieldStrength": 3,
+    "ImagingFrequency": 127.76,
     "Manufacturer": "Philips",
     "ManufacturersModelName": "Ingenia",
     "InstitutionName": "I.N._Psiquiatria",
@@ -39,6 +40,8 @@
     "EchoTime": 0.127,
     "RepetitionTime": 9,
     "FlipAngle": 90,
+    "CoilString": "MULTI_COIL",
+    "PartialFourier": 0.402174,
     "PercentPhaseFOV": 100,
     "EchoTrainLength": 37,
     "PhaseEncodingSteps": 92,
@@ -56,8 +59,9 @@
     ],
     "InPlanePhaseEncodingDirectionDICOM": "COL",
     "ConversionSoftware": "dcm2niix",
-    "ConversionSoftwareVersion": "v1.0.20180404 GCC7.3.1",
-	"PhaseEncodingDirection": "j-",
-	"EffectiveEchoSpacing": 0.000847,
-	"TotalReadoutTime": 0.06265
+    "ConversionSoftwareVersion": "v1.0.20190410  (JP2:OpenJPEG) GCC6.3.0",
+    "Dcm2bidsVersion": "2.1.4",
+    "PhaseEncodingDirection": "j-",
+    "EffectiveEchoSpacing": 0.000847,
+    "TotalReadoutTime": 0.06265
 }

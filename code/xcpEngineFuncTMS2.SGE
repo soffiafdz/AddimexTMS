@@ -5,7 +5,7 @@
 #$ -N xcpEfTMS2
 ## execute the job using the mpi_smp parallel enviroment and 12 cores per job
 ## create an array of 87 jobs the number of subjects and sessions
-#$ -t 1-87
+#$ -t 86
 #$ -V
 #$ -l mem_free=16G
 #$ -pe openmp 12
@@ -24,7 +24,7 @@ HOME_DIR=/mnt/MD1200B/egarza/sfernandezl
 OUT_DIR=${HOME_DIR}/AddimexTMS/derivatives/xcpOut
 TMP_DIR=${HOME_DIR}/tmp
 DER_DIR=${HOME_DIR}/AddimexTMS/derivatives
-SIMG=${HOME_DIR}/singImages/pennbbl_xcpengine_latest-2019-05-09.img
+SIMG=${HOME_DIR}/singImages/soffiafdz_xcpengine_latest-2019-06-27.img
 FULL_COHORT=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/cohorts/tmsFuncCohort.csv
 PIPELINE=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/designs/norm2mm.dsn
 
@@ -33,7 +33,7 @@ HEADER=$(head -n 1 $FULL_COHORT)
 LINE_N=$( expr $SGE_TASK_ID + 1 )
 LINE=$(awk -v LINE_N=$(($SGE_TASK_ID + 1)) 'NR==LINE_N' $FULL_COHORT)
 TMP_COHORT=${FULL_COHORT/tmsFuncCohort/tmpFCohort-${SGE_TASK_ID}}
-echo $HEADER > $TMP_COHORT 
+echo $HEADER > $TMP_COHORT
 echo $LINE >> $TMP_COHORT
 
 # random sleep so that jobs dont start at _exactly_ the same time

@@ -5,7 +5,7 @@
 #$ -N dcm2bids
 ## execute the job using the mpi_smp parallel enviroment and 10 cores per job
 ## create an array of ?? jobs the number of subjects and sessions
-#$ -t 1-??
+#$ -t 24
 #$ -V
 #$ -l mem_free=16G
 #$ -pe openmp 10
@@ -27,19 +27,23 @@ error_exit() {
 
 conv2bids() {
     echo "Converting ${ses}";
-    sudo docker run -ti --rm \
-        -v ${bidsdir}:/data soffiafdz/dcm2bids \
-        dcm2bids -d /data/${dcmdir}/${sub}/${ses} -p ${sub#*-} \
-        -s ${ses#*-} -o /data -c /data/code/config.json;
+    singularity exec -B /mnt:/mnt \
+        $SIMG \
+        dcm2bids \
+        -d ${dcmdir}/${sub}/${ses} \
+        -p ${sub} \
+        -s ${ses#*-} \
+        -o ${bidsdir} \
+        -c ${bidsdir}/code/config.json
 }
 
 slicetiming() {
     if [[ 10#${sub#*-} -lt 5 ]] && [[ $ses == "ses-t0" ]]; then
         echo "Appending SliceTiming (sub $sub is pre-change)";
-        sed -i 'x; ${s/$/,\n\t"TaskName": "rest",\n\t"PhaseEncodingDirection": "j-",\n\t"SliceTiming": [\n\t\t0.000000,\n\t\t1.025641,\n\t\t0.051282,\n\t\t1.076923,\n\t\t0.102564,\n\t\t1.128205,\n\t\t0.153846,\n\t\t1.179487,\n\t\t0.205128,\n\t\t1.230769,\n\t\t0.256410,\n\t\t1.282052,\n\t\t0.307692,\n\t\t1.333334,\n\t\t0.358974,\n\t\t1.384616,\n\t\t0.410256,\n\t\t1.435898,\n\t\t0.461538,\n\t\t1.487180,\n\t\t0.512820,\n\t\t1.538462,\n\t\t0.564102,\n\t\t1.589744,\n\t\t0.615385,\n\t\t1.641026,\n\t\t0.666667,\n\t\t1.692308,\n\t\t0.717949,\n\t\t1.743590,\n\t\t0.769231,\n\t\t1.794873,\n\t\t0.820513,\n\t\t1.846155,\n\t\t0.871795,\n\t\t1.897437,\n\t\t0.923077,\n\t\t1.948719,\n\t\t0.974359\n\t]/;p;x}; 1d' ${bidsdir}/${sub}/${ses}/func/${sub}_${ses}_task-rest_bold.json;
+        sed -i 'x; ${s/$/,\n    "TaskName": "rest",\n    "PhaseEncodingDirection": "j-",\n    "SliceTiming": [\n        0.000000,\n        1.025641,\n        0.051282,\n        1.076923,\n        0.102564,\n        1.128205,\n        0.153846,\n        1.179487,\n        0.205128,\n        1.230769,\n        0.256410,\n        1.282052,\n        0.307692,\n        1.333334,\n        0.358974,\n        1.384616,\n        0.410256,\n        1.435898,\n        0.461538,\n        1.487180,\n        0.512820,\n        1.538462,\n        0.564102,\n        1.589744,\n        0.615385,\n        1.641026,\n        0.666667,\n        1.692308,\n        0.717949,\n        1.743590,\n        0.769231,\n        1.794873,\n        0.820513,\n        1.846155,\n        0.871795,\n        1.897437,\n        0.923077,\n        1.948719,\n        0.974359\n    ]/;p;x}; 1d' ${bidsdir}/${sub}/${ses}/func/${sub}_${ses}_task-rest_bold.json;
     else
         echo "Appending SliceTiming (sub $sub is post-change)";
-        sed -i 'x; ${s/$/,\n\t"TaskName": "rest",\n\t"PhaseEncodingDirection": "j-",\n\t"SliceTiming": [\n\t\t0.000000,\n\t\t1.027027,\n\t\t0.054054,\n\t\t1.081081,\n\t\t0.108108,\n\t\t1.135135,\n\t\t0.162162,\n\t\t1.189189,\n\t\t0.216216,\n\t\t1.243244,\n\t\t0.270270,\n\t\t1.297298,\n\t\t0.324324,\n\t\t1.351352,\n\t\t0.378378,\n\t\t1.405406,\n\t\t0.432432,\n\t\t1.459460,\n\t\t0.486486,\n\t\t1.513514,\n\t\t0.540541,\n\t\t1.567568,\n\t\t0.594595,\n\t\t1.621622,\n\t\t0.648649,\n\t\t1.675676,\n\t\t0.702703,\n\t\t1.729730,\n\t\t0.756757,\n\t\t1.783784,\n\t\t0.810811,\n\t\t1.837838,\n\t\t0.864865,\n\t\t1.891892,\n\t\t0.918919,\n\t\t1.945947,\n\t\t0.972973\n\t]/;p;x}; 1d' ${bidsdir}/${sub}/${ses}/func/${sub}_${ses}_task-rest_bold.json;
+        sed -i 'x; ${s/$/,\n    "TaskName": "rest",\n    "PhaseEncodingDirection": "j-",\n    "SliceTiming": [\n        0.000000,\n        1.027027,\n        0.054054,\n        1.081081,\n        0.108108,\n        1.135135,\n        0.162162,\n        1.189189,\n        0.216216,\n        1.243244,\n        0.270270,\n        1.297298,\n        0.324324,\n        1.351352,\n        0.378378,\n        1.405406,\n        0.432432,\n        1.459460,\n        0.486486,\n        1.513514,\n        0.540541,\n        1.567568,\n        0.594595,\n        1.621622,\n        0.648649,\n        1.675676,\n        0.702703,\n        1.729730,\n        0.756757,\n        1.783784,\n        0.810811,\n        1.837838,\n        0.864865,\n        1.891892,\n        0.918919,\n        1.945947,\n        0.972973\n    ]/;p;x}; 1d' ${bidsdir}/${sub}/${ses}/func/${sub}_${ses}_task-rest_bold.json;
     fi
 }
 
@@ -56,7 +60,7 @@ ees_trt() {
             TRT=0.04884
         fi
         echo "$sub ${ses}: $ES $TRT"
-        sed -i "${l}s/$/,\n\t\"EffectiveEchoSpacing\": $ES,\n\t\"TotalReadoutTime\": $TRT/" $i
+        sed -i "${l}s/$/,\n    \"EffectiveEchoSpacing\": $ES,\n    \"TotalReadoutTime\": $TRT/" $i
     done
 
 
@@ -83,7 +87,7 @@ ees_trt() {
                 ;;
         esac
         echo "$sub ${ses}: $ES $TRT"
-        sed -i "${l}s/$/,\n\t\"PhaseEncodingDirection\": \"j-\",\n\t\"EffectiveEchoSpacing\": ${ES},\n\t\"TotalReadoutTime\": ${TRT}/" $i
+        sed -i "${l}s/$/,\n    \"PhaseEncodingDirection\": \"j-\",\n    \"EffectiveEchoSpacing\": ${ES},\n    \"TotalReadoutTime\": ${TRT}/" $i
     done
 
 
@@ -118,7 +122,7 @@ ees_trt() {
                 esac
             fi
             echo "$subn ${ses}: $ES $TRT"
-            sed -i "${l}s|$|,\n\t\"PhaseEncodingDirection\": \"j\",\n\t\"EffectiveEchoSpacing\": ${ES},\n\t\"TotalReadoutTime\": ${TRT}\"|" $i
+            sed -i "${l}s|$|,\n    \"PhaseEncodingDirection\": \"j\",\n    \"EffectiveEchoSpacing\": ${ES},\n    \"TotalReadoutTime\": ${TRT}|" $i
         else
             echo "$(basename $i) is not a fieldmap for DTI, so it's for EPI";
             case $ses in
@@ -143,14 +147,17 @@ ees_trt() {
                     ;;
             esac
             echo "$subn ${ses}: $ES $TRT"
-            sed -i "${l}s|$|,\n\t\"PhaseEncodingDirection\": \"j\",\n\t\"EffectiveEchoSpacing\": ${ES},\n\t\"TotalReadoutTime\": ${TRT}\"|" $i
+            sed -i "${l}s|$|,\n    \"PhaseEncodingDirection\": \"j\",\n    \"EffectiveEchoSpacing\": ${ES},\n    \"TotalReadoutTime\": ${TRT}|" $i
         fi
     done
 }
 
 deface() {
     t1=${bidsdir}/${sub}/${ses}/anat/${sub}_${ses}_T1w.nii.gz
-    pydeface --force $t1 --outfile $t1
+    singularity exec \
+        -B /mnt:/mnt \
+        $SIMG \
+        pydeface --force $t1 --outfile $t1
 }
 
 printTime() {
@@ -159,15 +166,15 @@ printTime() {
 
 ## Variables
 PROGNAME=$(basename $0)
-dcmdir=$1
-bidsdir=$2
+SIMG=/mnt/MD1200B/egarza/sfernandezl/singImages/soffiafdz_dcm2bids-2019-06-30.img
+bidsdir=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS
+dcmdir=${bidsdir}/sourcedata/dicom
 sublist=${bidsdir}/participants.tsv
 sub=$(awk -v LINE=$(($SGE_TASK_ID + 1)) 'NR==LINE{print $1}' $sublist)
 
 ## Body
 [ -d $dcmdir ] || error_exit "Dicom directory not found or empty"
 [ -d $bidsdir ] || error_exit "BIDS  directory not found or empty"
-[ -z $sub ] || error_exit "SUB not found in participants list"
 
 printTime
 echo "Subject ${sub}"
@@ -180,7 +187,7 @@ if [ ! -d ${bidsdir}/${sub}/ses-t0 ] && [ -d ${dcmdir}/${sub}/ses-t0 ]; then
     slicetiming
     printTime
     ees_trt
-    deface
+    #deface
 else
     printTime
     echo "ses-t0 not found or already converted"
@@ -195,7 +202,7 @@ if [ ! -d ${bidsdir}/${sub}/ses-t1 ] && [ -d ${dcmdir}/${sub}/ses-t1 ] ; then
     printTime
     ees_trt
     printTime
-    deface
+    #deface
 else
     printTime
     echo "ses-t1 not found or already converted"
@@ -210,7 +217,7 @@ if [ ! -d ${bidsdir}/${sub}/ses-t14 ] && [ -d ${dcmdir}/${sub}/ses-t14 ] ; then
     printTime
     ees_trt
     printTime
-    deface
+    #deface
 else
     printTime
     echo "ses-t1-4 not found or already converted"
@@ -225,7 +232,7 @@ if [ ! -d ${bidsdir}/${sub}/ses-t2 ] && [ -d ${dcmdir}/${sub}/ses-t2 ] ; then
     printTime
     ees_trt
     printTime
-    deface
+    #deface
 else
     printTime
     echo "ses-t2 not found or already converted"
@@ -239,7 +246,7 @@ if [ ! -d ${bidsdir}/${sub}/ses-t3 ] && [ -d ${dcmdir}/${sub}/ses-t3 ] ; then
     printTime
     ees_trt
     printTime
-    deface
+    #deface
 else
     printTime
     echo "ses-t3 not found or already converted"
@@ -254,7 +261,7 @@ if [ ! -d ${bidsdir}/${sub}/ses-t4 ] && [ -d ${dcmdir}/${sub}/ses-t4 ] ; then
     printTime
     ees_trt
     printTime
-    deface
+    #deface
 else
     printTime
     echo "ses-t4 not found or already converted"
@@ -269,7 +276,7 @@ if [ ! -d ${bidsdir}/${sub}/ses-t5 ] && [ -d ${dcmdir}/${sub}/ses-t5 ] ; then
     printTime
     ees_trt
     printTime
-    deface
+    #deface
 else
     printTime
     echo "ses-t5 not found or already converted"

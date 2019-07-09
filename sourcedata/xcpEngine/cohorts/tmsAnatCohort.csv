@@ -84,5 +84,6 @@ sub-034,ses-t2,sub-034/anat/sub-034_desc-preproc_T1w.nii.gz
 sub-036,ses-t0,sub-036/anat/sub-036_desc-preproc_T1w.nii.gz
 sub-036,ses-t14,sub-036/anat/sub-036_desc-preproc_T1w.nii.gz
 sub-036,ses-t1,sub-036/anat/sub-036_desc-preproc_T1w.nii.gz
+sub-036,ses-t2,sub-036/anat/sub-036_desc-preproc_T1w.nii.gz
 sub-037,ses-t0,sub-037/anat/sub-037_desc-preproc_T1w.nii.gz
 sub-037,ses-t1,sub-037/anat/sub-037_desc-preproc_T1w.nii.gz
