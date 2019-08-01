@@ -1,0 +1,155 @@
+#! /bin/bash
+
+## Modules
+. /etc/profile.d/modules.sh
+module load ants/9may2019
+module load fsl/5.0.11
+
+. /cm/shared/apps/fsl/5.0.11/etc/fslconf/fsl.sh
+
+## Constants
+bidsdir=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS
+csvOrig=${bidsdir}/sourcedata/coordMatlab.csv
+subLine=$(awk -v N=$(($1 + 1)) 'NR==N' $csvOrig)
+csv=tmp${SGE_TASK_ID}.csv
+std=/cm/shared/apps/fsl/5.0.11/data/standard/MNI152_T1_2mm.nii.gz
+stdMask=${std/2mm/2mm_brain_mask}
+regDir=${bidsdir}/derivatives/stimZanalysis/regis
+norDir=${bidsdir}/derivatives/stimZanalysis/mniNorm
+pntDir=${bidsdir}/derivatives/stimZanalysis/ntvStimPnt
+mniDir=${bidsdir}/derivatives/stimZanalysis/mniStim
+conDir=${bidsdir}/derivatives/stimZanalysis/mniCones
+
+## Functions
+point() { #t1w #name
+    # Create point in specific location in native map
+    out=${pntDir}/${2}
+    fslmaths ${1} \
+        -mul 0 \
+        -add 1 \
+        -roi ${coords} \
+        $out \
+        -odt float
+
+    fslmaths $out \
+        -bin \
+        $out
+}
+
+normalization() { #inFile #outFile
+    ANTS 3 \
+        -m CC[${std},${1},1,4] \
+        -i 50x20x10 \
+        -o $2 \
+        -t SyN[0.1,3,0]
+}
+
+warpAnts() { #inFile #Warp/Affine #outFile
+    WarpImageMultiTransform 3 $1 ${3}.nii.gz -R $std ${2}Warp.nii.gz {2}Affine.txt;
+}
+
+sphere() { #inFile #outFile
+    # Create sphere
+    fslmaths $1 -kernel sphere 2 -fmean -thr 0.001 -bin ${conDir}/${2} -odt float;
+}
+
+cone() { #inFile #outFile
+## Create cone shaped ROI for TMS FC
+
+    # Create spheres for each size.
+    echo fslmaths $1 -kernel sphere 2 -fmean -bin ${conDir}/pre_sphere2mm -odt float;
+    fslmaths $1 -kernel sphere 2 -fmean -bin ${conDir}/pre_sphere2mm -odt float;
+    echo fslmaths $1 -kernel sphere 4 -fmean -bin ${conDir}/pre_sphere4mm -odt float;
+    fslmaths $1 -kernel sphere 4 -fmean -bin ${conDir}/pre_sphere4mm -odt float;
+    echo fslmaths $1 -kernel sphere 7 -fmean -bin ${conDir}/pre_sphere7mm -odt float;
+    fslmaths $1 -kernel sphere 7 -fmean -bin ${conDir}/pre_sphere7mm -odt float;
+    echo fslmaths $1 -kernel sphere 9 -fmean -bin ${conDir}/pre_sphere9mm -odt float;
+    fslmaths $1 -kernel sphere 9 -fmean -bin ${conDir}/pre_sphere9mm -odt float;
+    echo fslmaths $1 -kernel sphere 12 -fmean -thr 0.001 -bin ${conDir}/pre_sphere12mm -odt float;
+    fslmaths $1 -kernel sphere 12 -fmean -thr 0.001 -bin ${conDir}/pre_sphere12mm -odt float;
+
+    # Cut each sphere so they fit one inside the other.
+    echo fslmaths ${conDir}/pre_sphere12mm -sub ${conDir}/pre_sphere9mm ${conDir}/pre_sphere12mm -odt float;
+    fslmaths ${conDir}/pre_sphere12mm -sub ${conDir}/pre_sphere9mm ${conDir}/pre_sphere12mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere9mm -sub ${conDir}/pre_sphere7mm ${conDir}/pre_sphere9mm -odt float;
+    fslmaths ${conDir}/pre_sphere9mm -sub ${conDir}/pre_sphere7mm ${conDir}/pre_sphere9mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere7mm -sub ${conDir}/pre_sphere4mm ${conDir}/pre_sphere7mm -odt float;
+    fslmaths ${conDir}/pre_sphere7mm -sub ${conDir}/pre_sphere4mm ${conDir}/pre_sphere7mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere4mm -sub ${conDir}/pre_sphere2mm ${conDir}/pre_sphere4mm -odt float;
+    fslmaths ${conDir}/pre_sphere4mm -sub ${conDir}/pre_sphere2mm ${conDir}/pre_sphere4mm -odt float;
+
+    # Give intensities to each sphere.
+    echo fslmaths ${conDir}/pre_sphere2mm -mul 5 ${conDir}/pre_sphere2mm -odt float;
+    fslmaths ${conDir}/pre_sphere2mm -mul 5 ${conDir}/pre_sphere2mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere4mm -mul 4 ${conDir}/pre_sphere4mm -odt float;
+    fslmaths ${conDir}/pre_sphere4mm -mul 4 ${conDir}/pre_sphere4mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere7mm -mul 3 ${conDir}/pre_sphere7mm -odt float;
+    fslmaths ${conDir}/pre_sphere7mm -mul 3 ${conDir}/pre_sphere7mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere9mm -mul 2 ${conDir}/pre_sphere9mm -odt float;
+    fslmaths ${conDir}/pre_sphere9mm -mul 2 ${conDir}/pre_sphere9mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere12mm -mul 1 ${conDir}/pre_sphere12mm -odt float;
+    fslmaths ${conDir}/pre_sphere12mm -mul 1 ${conDir}/pre_sphere12mm -odt float;
+
+    # Cut outside cortex.
+    echo fslmaths ${conDir}/pre_sphere2mm -mul $stdMsk ${conDir}/pre_sphere2mm -odt float;
+    fslmaths ${conDir}/pre_sphere2mm -mul $stdMsk ${conDir}/pre_sphere2mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere4mm -mul $stdMsk ${conDir}/pre_sphere4mm -odt float;
+    fslmaths ${conDir}/pre_sphere4mm -mul $stdMsk ${conDir}/pre_sphere4mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere7mm -mul $stdMsk ${conDir}/pre_sphere7mm -odt float;
+    fslmaths ${conDir}/pre_sphere7mm -mul $stdMsk ${conDir}/pre_sphere7mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere9mm -mul $stdMsk ${conDir}/pre_sphere9mm -odt float;
+    fslmaths ${conDir}/pre_sphere9mm -mul $stdMsk ${conDir}/pre_sphere9mm -odt float;
+    echo fslmaths ${conDir}/pre_sphere12mm -mul $stdMsk ${conDir}/pre_sphere12mm -odt float;
+    fslmaths ${conDir}/pre_sphere12mm -mul $stdMsk ${conDir}/pre_sphere12mm -odt float;
+
+    # Combine masks.
+    echo fslmaths ${conDir}/pre_sphere2mm -add ${conDir}/pre_sphere4mm -add ${conDir}/pre_sphere7mm -add ${conDir}/pre_sphere9mm -add ${conDir}/pre_sphere12mm ${conDir}/${3} -odt float;
+    fslmaths ${conDir}/pre_sphere2mm -add ${conDir}/pre_sphere4mm -add ${conDir}/pre_sphere7mm -add ${conDir}/pre_sphere9mm -add ${conDir}/pre_sphere12mm ${conDir}/${3} -odt float;
+
+    # Normalize intensity to 1
+    echo fslmaths ${conDir}/${2} -inm 1 ${conDir}/${2}Norm -odt float
+    fslmaths ${conDir}/${2} -inm 1 ${conDir}/${2}Norm -odt float
+
+    # Remove preliminary files
+    rm ${conDir}/pre*
+}
+
+## Body
+# Temporal csv
+echo $subLine > $csv
+
+while IFS="," read rid x y z  ; do
+    coords="$x 1 $y 1 $z 1 0 1"
+    t1w=${regDir}/${rid}/vit/structural.nii.gz
+
+    ## Normalization
+    norDirOut=${norDir}/${rid}
+    # Check if normalization is made and exit
+    if [[ -f ${norDirOut}/${rid}MniWarp.nii.gz ]]; then
+        echo "RID is already normalized"
+    else
+        # Check directory
+        [[ -e ${norDirOut} ]] || mkdir -p $norDirOut
+        normalization $t1w \
+            ${norDirOut}/${rid}Mni
+    fi
+
+    ## Stim-point Mask
+    [[ -e $pntDir ]] || mkdir -p $pntDir
+    point $t1w \
+        ${rid}ntvPnt
+
+    ## Warp of Stim Site
+    # [[ -e $mniDir ]] || mkdir -p $mniDir
+    # warpAnts ${pntDir}/${rid}ntvPnt \
+    #     ${norDirOut}/${rid}Mni \
+    #     ${mniDir}/${rid}mniPnt
+
+    ## Stim-point Spheres
+    [[ -e $conDir ]] || mkdir -p $conDir
+    sphere ${mniDir}/${rid}mniPnt ${rid}mniSphr
+
+    ## Stim-point Cones
+    cone ${mniDir}/${rid}mniPnt ${rid}mniCone
+done < $csv
+rm $csv

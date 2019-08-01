@@ -1,17 +1,11 @@
 #! /bin/bash
 ## SGE batch file - fmriprepTMS
 #$ -S /bin/bash
-## fmriprepTMS is the jobname and can be changed
 #$ -N fmriprepTMS
-## execute the job using the mpi_smp parallel enviroment and 8 cores per job
-## create an array of 2 jobs the number of subjects and sessions
-#$ -t 30
+## -t 30
 #$ -V
-#$ -l mem_free=16G
+#$ -l mem_free=18G
 #$ -pe openmp 12
-## change the following working directory to a persistent directory that is
-## available on all nodes, this is were messages printed by the app (stdout
-## and stderr) will be stored
 #$ -j y
 #$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
 

@@ -5,7 +5,7 @@
 #$ -N xcpEfTMS
 ## execute the job using the mpi_smp parallel enviroment and 12 cores per job
 ## create an array of 87 jobs the number of subjects and sessions
-#$ -t 86
+#$ -t 89-94
 #$ -V
 #$ -l mem_free=16G
 #$ -pe openmp 12
@@ -24,7 +24,7 @@ HOME_DIR=/mnt/MD1200B/egarza/sfernandezl
 OUT_DIR=${HOME_DIR}/AddimexTMS/derivatives/xcpOut
 TMP_DIR=${HOME_DIR}/tmp
 DER_DIR=${HOME_DIR}/AddimexTMS/derivatives
-SIMG=${HOME_DIR}/singImages/soffiafdz_xcpengine_latest-2019-06-27.img
+SIMG=${HOME_DIR}/singImages/pennbbl_xcpengine-2019-06-28.img
 FULL_COHORT=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/cohorts/tmsFuncCohort.csv
 PIPELINE=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/designs/fc-36p_scrub.dsn
 

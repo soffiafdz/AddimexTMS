@@ -1,0 +1,116 @@
+#! /bin/bash
+## SGE batch file - ANTseeds.SGE
+#$ -S /bin/bash
+#$ -N antsReg
+## execute the job using the mpi_smp parallel enviroment and 10 cores per job
+## create an array of ?? jobs the number of subjects and sessions
+## -t [x]
+#$ -V
+#$ -l mem_free=16G
+#$ -pe openmp 10
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
+
+## Modules
+. /etc/profile.d/modules.sh
+module load ants/9may2019
+
+## Constants
+bidsdir=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS
+sublist=${bidsdir}/participants.tsv
+sub=$(awk -v LINE=$(($SGE_TASK_ID + 1)) 'NR==LINE{print $1}' $sublist)
+regDir=${bidsdir}/derivatives/stimZanalysis/regis/${sub#*-}
+vHd=${regDir}/vit/structural.nii.gz
+nvHd=${vHd/vit/noVit}
+
+sleep $(($SGE_TASK_ID % 10))
+
+## Functions
+
+dSkull() { #INPUT #OUTPUT
+    Temp=${bidsdir}/../OASIS
+    antsBrainExtraction.sh \
+    -d 3 \
+    -a $1 \
+    -e $Temp/T_template0.nii.gz \
+    -m $Temp/T_template0_BrainCerebellumProbabilityMask.nii.gz \
+    -f $Temp/T_template0_BrainCerebellumRegistrationMask.nii.gz
+    -o ${regDir}/ants/noVit2vit_${sub}_
+}
+
+regis() { #vit #noVit #Warped
+    antsRegistration \
+        --dimensionality 3 \
+        --float 0 \
+        --output [noVit2vit_${sub}_, noVit2vit_${sub}_${3}.nii.gz] \
+        --interpolation Linear \
+        --use-histogram-matching 0 \
+        --initial-moving-transform [$1,$2,1] \
+        --transform Rigid[0.1] \
+        --metric MI[$1,$2,1,32,Regular,0.25] \
+        --convergence [1000x500x250x100,1e-6,10] \
+        --shrink-factors 8x4x2x1 \
+        --smoothing-sigmas 3x2x1x0vox \
+        --transform Affine[0.1] \
+        --metric MI[$1,$2,1,32,Regular,0.25] \
+        --convergence [1000x500x250x100,1e-6,10] \
+        --shrink-factors 8x4x2x1 \
+        --smoothing-sigmas 3x2x1x0vox
+}
+
+## Body
+
+# Check if registration is made and exit
+rid10=10#${sub#*-};
+if (( rid10 >= 10#022 & rid10 < 10#035 )); then
+    vit="t0"
+else
+    case ${sub#*-} in
+        002|004)
+            vit="t4";;
+        008)
+            vit="t5";;
+        020)
+            vit="t2";;
+        021)
+            vit="t1";;
+        036)
+            vit="t1";;
+        037|039|041|042)
+            vit="t0";;
+        *)
+            echo "RID $rid10 $sub doesn't have vit Image"
+            exit 2;;
+    esac
+fi
+
+if [[ $vit == "t0" ]]; then
+    noVit="t1"
+else
+    noVit="t0"
+fi
+echo 'RID' $sub 'Vitamin image' $vit 'Normal image' $noVit;
+
+if [[ -f $regDir/ants/noVit2vit_${sub}_Warped.nii.gz ]]; then
+    echo "RID is already corregistered"
+else
+    # Check/make vit/noVit dirs
+    [[ -d ${regDir}/vit ]] \
+        || mkdir -p ${regDir}/vit
+    [[ -d ${regDir}/noVit ]] \
+        || mkdir -p ${regDir}/noVit
+    [[ -d ${regDir}/ants ]] \
+        || mkdir -p ${regDir}/ants
+    # Check/copy struct links
+    [[ -e $vHd ]] \
+        || ln ${bidsdir}/${sub}/ses-${vit}/anat/${sub}_ses-${vit}_T1w.nii.gz \
+        $vHd
+    [[ -e $nvHd ]] \
+        || ln ${bidsdir}/${sub}/ses-${noVit}/anat/${sub}_ses-${noVit}_T1w.nii.gz \
+        $nvHd
+    # Corregistration script
+    cd ${regDir}/ants
+    echo $(pwd)
+    regis $vHd $nvHd Warped
+fi
+[[ -e ${regDir}/ants/*BrainExtraction*} ]] \
+    || dSkull ${regDir}/ants/noVit2vit_${sub}_Warped.nii.gz
