@@ -1,0 +1,21 @@
+#! /bin/bash
+## SGE batch file - mriqcGroupTMS.SGE
+#$ -S /bin/bash
+#$ -N mriqcG
+#$ -V
+#$ -l mem_free=16G
+#$ -pe openmp 6
+#$ -j y
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs/mriqc
+
+module load singularity/2.2
+
+container=/mnt/MD1200B/egarza/sfernandezl/singImages/mriqc20190730.img
+
+singularity run -B /mnt:/mnt \
+    $container \
+    /mnt/MD1200B/egarza/sfernandezl/AddimexTMS \
+    /mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/mriqc \
+    group \
+    --work-dir /mnt/MD1200B/egarza/sfernandezl/tmp \
+    --fd_thres 0.5

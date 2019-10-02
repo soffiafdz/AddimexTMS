@@ -5,7 +5,7 @@
 #$ -N dcm2bids
 ## execute the job using the mpi_smp parallel enviroment and 10 cores per job
 ## create an array of ?? jobs the number of subjects and sessions
-#$ -t 35
+## -t 35
 #$ -V
 #$ -l mem_free=16G
 #$ -pe openmp 10
@@ -13,7 +13,7 @@
 ## available on all nodes, this is were messages printed by the app (stdout
 ## and stderr) will be stored
 #$ -j y
-#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs/dcm2bids
 
 ## Modules
 . /etc/profile.d/modules.sh

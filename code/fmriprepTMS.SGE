@@ -2,19 +2,19 @@
 ## SGE batch file - fmriprepTMS
 #$ -S /bin/bash
 #$ -N fmriprepTMS
-## -t 30
+## -t 1-35
 #$ -V
 #$ -l mem_free=18G
-#$ -pe openmp 12
+#$ -pe openmp 10
 #$ -j y
-#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs/fmriprep
 
 module load singularity/2.2
 
 ## sudo chmod 777 /mnt
 # mkdir -p /mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/fmriprep/output
 export FS_LICENSE=/mnt/MD1200B/egarza/sfernandezl/freesurferLicense/license.txt
-container=/mnt/MD1200B/egarza/sfernandezl/singImages/poldracklab_fmriprep-2019-03-18.img
+container=/mnt/MD1200B/egarza/sfernandezl/singImages/fmriprep20190725.img
 subList=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/participants.tsv
 sge_ndx=$(awk -v F='\t' -v OFS='\t' -v subIndx=$(($SGE_TASK_ID + 1)) 'NR==subIndx {print $1}' $subList)
 
@@ -27,13 +27,12 @@ singularity run -B /mnt:/mnt \
     /mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/fmriprep/output \
     participant \
     --participant-label ${sge_ndx} \
-    --longitudinal \
-    --nthreads 12 --omp-nthreads 12 \
-    --mem-mb 16 \
+    --skip_bids_validation \
+    --fs-no-reconall \
     --resource-monitor \
     --write-graph \
     --work-dir /mnt/MD1200B/egarza/sfernandezl/tmp \
     --output-space T1w template \
-    --template-resampling-grid 2mm \
-    --fs-no-reconall \
+    --output-spaces T1w \
+    --longitudinal \
     --use-syn-sdc;

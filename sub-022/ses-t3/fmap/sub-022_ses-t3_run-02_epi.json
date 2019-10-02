@@ -61,7 +61,7 @@
     "ConversionSoftware": "dcm2niix",
     "ConversionSoftwareVersion": "v1.0.20190410  (JP2:OpenJPEG) GCC6.3.0",
     "Dcm2bidsVersion": "2.1.4",
-    "IntendedFor": "ses-t3/dwi/sub-022_ses-t3_dwi.nii.gz",
+    "IntendedFor": "dwi/sub-022_ses-t3_dwi.nii.gz",
     "PhaseEncodingDirection": "j",
     "EffectiveEchoSpacing": 0.000847,
     "TotalReadoutTime": 0.06265

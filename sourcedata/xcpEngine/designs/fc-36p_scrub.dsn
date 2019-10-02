@@ -71,7 +71,7 @@ confound2_custom[2]=
 confound2_censor[2]=1
 confound2_censor_contig[2]=1
 confound2_framewise[2]=fds:0.25,dv:2
-confound2_rerun[2]=0
+confound2_rerun[2]=1
 confound2_cleanup[2]=1
 
 ###################################################################
@@ -91,7 +91,7 @@ regress_smo[3]=6
 regress_sptf[3]=uniform
 regress_usan[3]=default
 regress_usan_space[3]=
-regress_rerun[3]=0
+regress_rerun[3]=1
 regress_cleanup[3]=1
 regress_process[3]=DMT-TMP-REG
 

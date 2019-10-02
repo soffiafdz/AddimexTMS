@@ -6,9 +6,9 @@
 ## create an array of ?? jobs the number of subjects and sessions
 ## -t [x]
 #$ -V
-#$ -l mem_free=16G
-#$ -pe openmp 10
-#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
+#$ -l mem_free=21G
+#$ -pe openmp 7
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs/stimZone
 
 ## Modules
 . /etc/profile.d/modules.sh
@@ -75,7 +75,7 @@ else
             vit="t1";;
         036)
             vit="t1";;
-        037|039|041|042)
+        037|039|0[45]?)
             vit="t0";;
         *)
             echo "RID $rid10 $sub doesn't have vit Image"

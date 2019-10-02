@@ -1,0 +1,29 @@
+#! /bin/bash
+## SGE batch file - mriqcTMS.SGE
+#$ -S /bin/bash
+#$ -N mriqcTMS
+## -t 1-35
+#$ -V
+#$ -l mem_free=18G
+#$ -pe openmp 4
+#$ -j y
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs/mriqc
+
+module load singularity/2.2
+
+mkdir -p /mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/mriqc
+container=/mnt/MD1200B/egarza/sfernandezl/singImages/mriqc20190730.img
+subList=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/participants.tsv
+sge_ndx=$(awk -v F='\t' -v OFS='\t' -v subIndx=$(($SGE_TASK_ID + 1)) 'NR==subIndx {print $1}' $subList)
+
+# random sleep so that jobs dont start at _exactly_ the same time
+sleep $(( $SGE_TASK_ID % 10 ))
+
+singularity run -B /mnt:/mnt \
+    $container \
+    /mnt/MD1200B/egarza/sfernandezl/AddimexTMS \
+    /mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/mriqc \
+    participant \
+    --fd_thres 0.5 \
+    --work-dir /mnt/MD1200B/egarza/sfernandezl/tmp \
+    --participant-label ${sge_ndx#sub-}
