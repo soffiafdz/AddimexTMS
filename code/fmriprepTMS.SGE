@@ -28,7 +28,6 @@ singularity run -B /mnt:/mnt \
     participant \
     --participant-label ${sge_ndx} \
     --skip_bids_validation \
-    --fs-no-reconall \
     --resource-monitor \
     --write-graph \
     --work-dir /mnt/MD1200B/egarza/sfernandezl/tmp \
