@@ -64,6 +64,7 @@ sub-022,ses-t3,fmriprep/output/fmriprep/sub-022/ses-t3/func/sub-022_ses-t3_task-
 sub-023,ses-t0,fmriprep/output/fmriprep/sub-023/ses-t0/func/sub-023_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-023/ses-t0/struc
 sub-023,ses-t1,fmriprep/output/fmriprep/sub-023/ses-t1/func/sub-023_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-023/ses-t1/struc
 sub-023,ses-t2,fmriprep/output/fmriprep/sub-023/ses-t2/func/sub-023_ses-t2_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-023/ses-t2/struc
+sub-023,ses-t3,fmriprep/output/fmriprep/sub-023/ses-t3/func/sub-023_ses-t3_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-023/ses-t3/struc
 sub-024,ses-t0,fmriprep/output/fmriprep/sub-024/ses-t0/func/sub-024_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-024/ses-t0/struc
 sub-024,ses-t1,fmriprep/output/fmriprep/sub-024/ses-t1/func/sub-024_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-024/ses-t1/struc
 sub-024,ses-t2,fmriprep/output/fmriprep/sub-024/ses-t2/func/sub-024_ses-t2_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-024/ses-t2/struc
@@ -71,6 +72,7 @@ sub-024,ses-t3,fmriprep/output/fmriprep/sub-024/ses-t3/func/sub-024_ses-t3_task-
 sub-025,ses-t0,fmriprep/output/fmriprep/sub-025/ses-t0/func/sub-025_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-025/ses-t0/struc
 sub-025,ses-t1,fmriprep/output/fmriprep/sub-025/ses-t1/func/sub-025_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-025/ses-t1/struc
 sub-025,ses-t2,fmriprep/output/fmriprep/sub-025/ses-t2/func/sub-025_ses-t2_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-025/ses-t2/struc
+sub-025,ses-t3,fmriprep/output/fmriprep/sub-025/ses-t3/func/sub-025_ses-t3_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-025/ses-t3/struc
 sub-026,ses-t0,fmriprep/output/fmriprep/sub-026/ses-t0/func/sub-026_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-026/ses-t0/struc
 sub-026,ses-t1,fmriprep/output/fmriprep/sub-026/ses-t1/func/sub-026_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-026/ses-t1/struc
 sub-027,ses-t0,fmriprep/output/fmriprep/sub-027/ses-t0/func/sub-027_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-027/ses-t0/struc
@@ -105,9 +107,11 @@ sub-037,ses-t0,fmriprep/output/fmriprep/sub-037/ses-t0/func/sub-037_ses-t0_task-
 sub-037,ses-t1,fmriprep/output/fmriprep/sub-037/ses-t1/func/sub-037_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-037/ses-t1/struc
 sub-039,ses-t0,fmriprep/output/fmriprep/sub-039/ses-t0/func/sub-039_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-039/ses-t0/struc
 sub-039,ses-t1,fmriprep/output/fmriprep/sub-039/ses-t1/func/sub-039_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-039/ses-t1/struc
+sub-039,ses-t2,fmriprep/output/fmriprep/sub-039/ses-t2/func/sub-039_ses-t2_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-039/ses-t2/struc
 sub-040,ses-t0,fmriprep/output/fmriprep/sub-040/ses-t0/func/sub-040_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-040/ses-t0/struc
 sub-041,ses-t0,fmriprep/output/fmriprep/sub-041/ses-t0/func/sub-041_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-041/ses-t0/struc
 sub-041,ses-t1,fmriprep/output/fmriprep/sub-041/ses-t1/func/sub-041_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-041/ses-t1/struc
+sub-041,ses-t2,fmriprep/output/fmriprep/sub-041/ses-t2/func/sub-041_ses-t2_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-041/ses-t2/struc
 sub-042,ses-t0,fmriprep/output/fmriprep/sub-042/ses-t0/func/sub-042_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-042/ses-t0/struc
 sub-042,ses-t1,fmriprep/output/fmriprep/sub-042/ses-t1/func/sub-042_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-042/ses-t1/struc
 sub-042,ses-t14,fmriprep/output/fmriprep/sub-042/ses-t14/func/sub-042_ses-t14_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-042/ses-t14/struc
@@ -126,3 +130,11 @@ sub-048,ses-t0,fmriprep/output/fmriprep/sub-048/ses-t0/func/sub-048_ses-t0_task-
 sub-048,ses-t1,fmriprep/output/fmriprep/sub-048/ses-t1/func/sub-048_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-048/ses-t1/struc
 sub-049,ses-t0,fmriprep/output/fmriprep/sub-049/ses-t0/func/sub-049_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-049/ses-t0/struc
 sub-049,ses-t1,fmriprep/output/fmriprep/sub-049/ses-t1/func/sub-049_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-049/ses-t1/struc
+sub-050,ses-t0,fmriprep/output/fmriprep/sub-050/ses-t0/func/sub-050_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-050/ses-t0/struc
+sub-050,ses-t1,fmriprep/output/fmriprep/sub-050/ses-t1/func/sub-050_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-050/ses-t1/struc
+sub-052,ses-t0,fmriprep/output/fmriprep/sub-052/ses-t0/func/sub-052_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-052/ses-t0/struc
+sub-052,ses-t1,fmriprep/output/fmriprep/sub-052/ses-t1/func/sub-052_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-052/ses-t1/struc
+sub-053,ses-t0,fmriprep/output/fmriprep/sub-053/ses-t0/func/sub-053_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-053/ses-t0/struc
+sub-053,ses-t1,fmriprep/output/fmriprep/sub-053/ses-t1/func/sub-053_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-053/ses-t1/struc
+sub-054,ses-t0,fmriprep/output/fmriprep/sub-054/ses-t0/func/sub-054_ses-t0_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-054/ses-t0/struc
+sub-054,ses-t1,fmriprep/output/fmriprep/sub-054/ses-t1/func/sub-054_ses-t1_task-rest_space-T1w_desc-preproc_bold.nii.gz,xcpOut/sub-054/ses-t1/struc

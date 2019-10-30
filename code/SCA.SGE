@@ -1,0 +1,88 @@
+#! /bin/bash
+## SGE batch file - SCA.SGE
+#$ -S /bin/bash
+#$ -N SCA
+#$ -V
+#$ -j y
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
+
+module load singularity/2.2 fsl/5.0.11
+
+home=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS
+outDir=${home}/derivatives/SCA
+ppDir=${home}/derivatives/xcpOut
+inList=${home}/participants.tsv
+seed=${home}/sourcedata/FoxData/cones/AVG_CONE_msk_normed.nii.gz
+img=${home/AddimexTMS/singImages}/afni_afni-2019-04-08.img
+
+function afni {
+    singularity exec -B /mnt:/mnt $img "$@"
+}
+
+
+## Create directories by group with links to preprocessed images
+# Remove first line of list
+inList2=${inList/.t/tmp.t}
+tail -n +2 $inList > $inList2
+
+while IFS=$'\t' read -r rid age sex group ed; do
+    # Group strings
+    case $group in
+        1)
+            groupI='sham';;
+        2)
+            groupI='real';;
+    esac
+
+    # Create directory
+    outIms=${outDir}/${groupI}/ppImgs
+    [[ -e $outIms ]] || mkdir -p $outIms
+
+    # Loop and create links
+    for i in ${ppDir}/${rid}/ses-*; do
+        ses=${i##*/}
+        outIm=${rid}_${ses}.nii.gz
+        ln -s ${i}/${outIm} ${outIms}/${outIm}
+    done
+done < $inList2
+
+## Analysis by group
+for i in ${outDir}/*; do
+    group=${i##*/}
+
+    # Directories
+    outTs=${outDir}/${group}/tsDLPFC
+    outCor=${outDir}/${group}/corrMaps
+
+    # Check/create directories
+    [[ -e $outTs ]] || mkdir -p $outTs
+    [[ -e $outCor ]] || mkdir -p $outCor
+
+    # Loop through images
+    for ppImg in ${outDir}/${group}/ppImgs/*; do
+        ppImgB=${ppImg##*/}
+        dlpfc=${ppImgB/.nii.gz/_DLPFC.1D}
+        corR=${ppImgB/.nii/_DLPFC_corr_r.nii}
+        corZ=${corR/_r/_z}
+
+        # Extract seed timeseries
+        fslmeants \
+            -i $ppImg \
+            -o ${outTs}/${dlpfc} \
+            -m $seed
+
+        # Correlation map (r)
+        afni 3dfim+ \
+            -polort 3 \
+            -input $ppImg \
+            -ideal_file ${outTs}/${dlpfc} \
+            -out Correlation \
+            -bucket ${outCor}/${corR}
+
+        # Correlation map (Z)
+        afni 3dcalc \
+            -a ${outCor}/${corR} \
+            -expr 'log((1+a)/(1-a))/2' \
+            -prefix ${outCor}/${corZ}
+    done
+done
